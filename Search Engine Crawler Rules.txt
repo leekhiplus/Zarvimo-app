@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leekhiplus.github.io/Zarvimo-app/
