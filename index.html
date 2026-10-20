@@ -1,106 +1,656 @@
+```html
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoxaZ Studio Video Player - ڈاؤن لوڈ کریں</title>
+    <title>Zarvimo Video Player - Your Videos, Your Way</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            900: '#060913',
+                            800: '#0b1120',
+                            700: '#111827',
+                            600: '#1e293b',
+                            500: '#334155'
+                        },
+                        neon: {
+                            blue: '#3b82f6',
+                            cyan: '#38bdf8',
+                            purple: '#a855f7',
+                            pink: '#ec4899',
+                            green: '#22c55e'
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-gradient': 'radial-gradient(circle at 50% 20%, rgba(56, 189, 248, 0.15) 0%, rgba(168, 85, 247, 0.08) 35%, rgba(6, 9, 19, 0.98) 100%)',
+                        'card-glow': 'radial-gradient(circle at top left, rgba(56, 189, 248, 0.1), transparent 60%)',
+                        'text-gradient': 'linear-gradient(135deg, #38bdf8 0%, #a855f7 50%, #ec4899 100%)',
+                        'btn-gradient': 'linear-gradient(135deg, #2563eb 0%, #3b82f6 50%, #06b6d4 100%)'
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* Glassmorphism Styles */
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
-        body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            text-align: center;
+        .glass-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card {
+        .glass-card:hover {
+            border-color: rgba(56, 189, 248, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px -10px rgba(56, 189, 248, 0.25);
+        }
+
+        /* Neon Text Glow */
+        .neon-glow-text {
+            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
+        }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #060913;
+        }
+        ::-webkit-scrollbar-thumb {
             background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 16px;
-            padding: 40px 25px;
-            max-width: 500px;
-            width: 100%;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 4px;
         }
-        .app-icon {
-            width: 90px;
-            height: 90px;
-            background-color: #38bdf8;
-            border-radius: 20px;
-            margin: 0 auto 20px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.3);
+        ::-webkit-scrollbar-thumb:hover {
+            background: #38bdf8;
         }
-        h1 {
-            color: #f8fafc;
-            font-size: 26px;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #94a3b8;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        .download-btn {
-            background-color: #22c55e;
-            color: #ffffff;
-            padding: 16px 32px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            border-radius: 10px;
-            display: inline-block;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(34, 197, 94, 0.4);
-            width: 100%;
-        }
-        .download-btn:hover {
-            background-color: #16a34a;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(34, 197, 94, 0.5);
-        }
-        .version-tag {
-            display: inline-block;
-            background-color: #334155;
-            color: #38bdf8;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            margin-bottom: 15px;
-        }
-        .footer {
-            margin-top: 35px;
-            font-size: 12px;
-            color: #64748b;
+
+        /* Handwriting Style Overlay Tag */
+        .script-tag {
+            font-family: 'Plus Jakarta Sans', cursive, sans-serif;
+            transform: rotate(-6deg);
         }
     </style>
 </head>
-<body>
+<body class="bg-dark-900 text-slate-100 font-sans antialiased selection:bg-neon-cyan selection:text-dark-900 overflow-x-hidden">
 
-    <div class="card">
-        <div class="app-icon">🎬</div>
-        <span class="version-tag">Build 28</span>
-        <h1>VoxaZ Studio Video Player</h1>
-        <p>اپنے اینڈرائیڈ فون کے لیے جدید اور بہترین ویڈیو پلیئر ڈاؤن لوڈ کریں۔ تیز رفتار پلے بیک اور اعلیٰ کوالٹی ویڈیوز کا لطف اٹھائیں۔</p>
-        
-        <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" class="download-btn">📥 APK ڈاؤن لوڈ کریں</a>
-
-        <div class="footer">
-            &copy; 2026 VoxaZ Studio. All rights reserved.
-        </div>
+    <!-- Ambient Background Glows -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-[600px] pointer-events-none z-0 overflow-hidden">
+        <div class="absolute -top-40 left-1/4 w-[500px] h-[500px] bg-neon-cyan/15 rounded-full blur-[140px]"></div>
+        <div class="absolute top-20 right-1/4 w-[450px] h-[450px] bg-neon-purple/15 rounded-full blur-[140px]"></div>
     </div>
 
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-neon-blue via-neon-purple to-neon-cyan flex items-center justify-center shadow-lg shadow-neon-blue/30 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid font-bold fa-play text-white text-lg ml-0.5"></i>
+                    </div>
+                    <div>
+                        <span class="text-2xl font-black font-display tracking-tight bg-gradient-to-r from-white via-slate-200 to-neon-cyan bg-clip-text text-transparent">Zarvimo</span>
+                        <span class="block text-[10px] font-semibold text-neon-cyan tracking-widest uppercase -mt-1">Video Player</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Menu Nav Links -->
+                <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#home" class="text-neon-cyan font-semibold border-b-2 border-neon-cyan pb-1 transition-all">Home</a>
+                    <a href="#features" class="hover:text-neon-cyan transition-colors">Features</a>
+                    <a href="#screenshots" class="hover:text-neon-cyan transition-colors">Screenshots</a>
+                    <a href="#download" class="hover:text-neon-cyan transition-colors">Download</a>
+                    <a href="#about" class="hover:text-neon-cyan transition-colors">About</a>
+                </div>
+
+                <!-- Header Slogan & Mobile Menu Button -->
+                <div class="flex items-center gap-4">
+                    <span class="hidden lg:inline-block text-xs italic font-medium text-slate-400 bg-dark-800/80 px-3 py-1.5 rounded-full border border-slate-700/50">
+                        Play More. Worry Less.
+                    </span>
+                    <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" class="hidden sm:inline-flex items-center gap-2 text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 px-3.5 py-2 rounded-lg text-sm font-medium transition-all border border-slate-700">
+                        <i class="fa-brands fa-android text-neon-green text-base"></i>
+                        <span>APK v28</span>
+                    </a>
+                    
+                    <!-- Mobile Menu Toggle Button -->
+                    <button id="mobile-menu-btn" class="md:hidden text-slate-300 hover:text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass-panel border-t border-slate-800 px-4 pt-3 pb-6 space-y-3 text-center">
+            <a href="#home" class="block py-2 text-neon-cyan font-semibold">Home</a>
+            <a href="#features" class="block py-2 text-slate-300 hover:text-white">Features</a>
+            <a href="#screenshots" class="block py-2 text-slate-300 hover:text-white">Screenshots</a>
+            <a href="#download" class="block py-2 text-slate-300 hover:text-white">Download</a>
+            <a href="#about" class="block py-2 text-slate-300 hover:text-white">About</a>
+            <div class="pt-2 flex justify-center gap-3">
+                <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" class="w-full bg-neon-blue hover:bg-blue-600 text-white font-bold py-2.5 rounded-lg flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-download"></i> Download APK
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+                
+                <!-- Hero Left Column Text & Action Buttons -->
+                <div class="lg:col-span-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-neon-cyan/10 border border-neon-cyan/30 text-neon-cyan text-xs font-bold tracking-wider uppercase mb-6">
+                        <i class="fa-brands fa-android"></i> Android Video Player App
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold font-display tracking-tight leading-none mb-4">
+                        <span class="bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">Zarvimo</span> <br>
+                        <span class="bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple bg-clip-text text-transparent neon-glow-text">Video Player</span>
+                    </h1>
+
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-200 mb-4">
+                        Your Videos, Your Way
+                    </h2>
+
+                    <p class="text-slate-400 text-base sm:text-lg max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+                        A powerful, fast and feature-rich video player for Android. Play all your favorite videos in stunning quality — anytime, anywhere.
+                    </p>
+
+                    <!-- Download Buttons Row -->
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 mb-10">
+                        <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" 
+                           class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neon-cyan via-neon-blue to-neon-purple hover:opacity-95 font-bold text-white shadow-xl shadow-neon-blue/30 flex items-center justify-center gap-3 text-base transition-all transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-download text-lg"></i>
+                            <span>Download Now</span>
+                        </a>
+
+                        <div class="w-full sm:w-auto opacity-70 cursor-not-allowed px-6 py-3.5 rounded-xl bg-dark-800 border border-slate-700/80 flex items-center justify-center gap-3 text-slate-300 text-sm font-semibold">
+                            <i class="fa-brands fa-google-play text-xl text-slate-400"></i>
+                            <div class="text-left">
+                                <div class="text-[9px] uppercase tracking-wider text-slate-400 leading-none">Get it on</div>
+                                <div class="text-xs font-bold leading-tight">Google Play</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right Column: Dynamic Mockup Preview -->
+                <div class="lg:col-span-6 relative">
+                    <div class="relative mx-auto max-w-md lg:max-w-none flex justify-center items-center gap-4 sm:gap-6">
+                        
+                        <!-- Handwritten Tagline Accent -->
+                        <div class="hidden sm:block absolute -right-4 top-10 z-20 script-tag text-right pointer-events-none">
+                            <span class="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-neon-cyan to-neon-purple bg-clip-text text-transparent drop-shadow-md">
+                                Smooth<br>Fast<br>Powerful
+                            </span>
+                            <div class="text-neon-cyan text-xl mr-4"><i class="fa-solid fa-arrow-turn-down-left"></i></div>
+                        </div>
+
+                        <!-- Phone Mockup 1 (Landscape Mode / Player Preview) -->
+                        <div class="w-[240px] sm:w-[280px] bg-slate-950 p-2.5 rounded-[36px] ring-1 ring-slate-700/60 shadow-2xl shadow-neon-cyan/20 transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <div class="bg-slate-900 rounded-[28px] overflow-hidden border border-slate-800 relative">
+                                <!-- Phone Header -->
+                                <div class="bg-slate-950 px-4 py-2 flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-800">
+                                    <span>9:41</span>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-wifi"></i>
+                                        <i class="fa-solid fa-battery-full"></i>
+                                    </div>
+                                </div>
+                                <!-- Mock Player Content -->
+                                <div class="relative h-[420px] bg-gradient-to-b from-slate-900 via-dark-800 to-slate-950 p-3 flex flex-col justify-between">
+                                    <!-- Scenic Image Background Placeholder -->
+                                    <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="Video frame" class="absolute inset-0 w-full h-full object-cover opacity-60">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/30 to-transparent"></div>
+
+                                    <!-- Top Overlay -->
+                                    <div class="relative z-10 flex items-center justify-between text-slate-200">
+                                        <div class="flex items-center gap-2 text-xs font-semibold">
+                                            <i class="fa-solid fa-arrow-left"></i>
+                                            <span>Zarvimo</span>
+                                        </div>
+                                        <div class="flex items-center gap-3 text-xs">
+                                            <i class="fa-solid fa-cast"></i>
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </div>
+                                    </div>
+
+                                    <!-- Player Controls Overlay -->
+                                    <div class="relative z-10 space-y-3">
+                                        <!-- Timeline Bar -->
+                                        <div class="space-y-1">
+                                            <div class="w-full h-1 bg-slate-700/80 rounded-full overflow-hidden">
+                                                <div class="w-1/2 h-full bg-neon-cyan rounded-full"></div>
+                                            </div>
+                                            <div class="flex justify-between text-[9px] text-slate-300 font-mono">
+                                                <span>12:34</span>
+                                                <span>28:45</span>
+                                            </div>
+                                        </div>
+
+                                        <!-- Controls Row -->
+                                        <div class="flex items-center justify-around text-slate-200 text-sm">
+                                            <i class="fa-solid fa-lock text-xs opacity-70"></i>
+                                            <i class="fa-solid fa-backward-step"></i>
+                                            <div class="w-10 h-10 rounded-full bg-neon-blue flex items-center justify-center text-white shadow-lg shadow-neon-blue/50 text-base">
+                                                <i class="fa-solid fa-pause"></i>
+                                            </div>
+                                            <i class="fa-solid fa-forward-step"></i>
+                                            <i class="fa-solid fa-expand text-xs opacity-70"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Phone Mockup 2 (Playlist View) -->
+                        <div class="hidden sm:block w-[240px] sm:w-[260px] bg-slate-950 p-2.5 rounded-[36px] ring-1 ring-slate-700/60 shadow-2xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <div class="bg-slate-900 rounded-[28px] overflow-hidden border border-slate-800 relative">
+                                <div class="bg-slate-950 px-4 py-2 flex items-center justify-between text-[10px] text-slate-400 border-b border-slate-800">
+                                    <span>9:41</span>
+                                    <div class="flex items-center gap-1.5">
+                                        <i class="fa-solid fa-signal"></i>
+                                        <i class="fa-solid fa-battery-three-quarters"></i>
+                                    </div>
+                                </div>
+                                <div class="p-3 bg-dark-800 h-[420px] overflow-hidden">
+                                    <!-- App Header Tabs -->
+                                    <div class="flex items-center justify-between mb-3 text-xs border-b border-slate-800 pb-2">
+                                        <span class="text-neon-cyan font-bold">Videos</span>
+                                        <span class="text-slate-400">Folders</span>
+                                        <span class="text-slate-400">Playlists</span>
+                                    </div>
+
+                                    <!-- Video List Items -->
+                                    <div class="space-y-2.5">
+                                        <div class="flex items-center gap-2 bg-slate-800/60 p-1.5 rounded-xl border border-slate-700/50">
+                                            <div class="w-12 h-10 rounded-lg bg-slate-700 overflow-hidden relative flex-shrink-0">
+                                                <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                                <span class="absolute bottom-0.5 right-0.5 bg-black/80 text-[7px] text-white px-1 rounded">12:45</span>
+                                            </div>
+                                            <div class="overflow-hidden">
+                                                <h4 class="text-[11px] font-semibold text-slate-100 truncate">Nature Beauty</h4>
+                                                <p class="text-[9px] text-slate-400">MP4 • 4K</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-2 bg-slate-800/40 p-1.5 rounded-xl border border-slate-800">
+                                            <div class="w-12 h-10 rounded-lg bg-slate-700 overflow-hidden relative flex-shrink-0">
+                                                <img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                                <span class="absolute bottom-0.5 right-0.5 bg-black/80 text-[7px] text-white px-1 rounded">2:32:17</span>
+                                            </div>
+                                            <div class="overflow-hidden">
+                                                <h4 class="text-[11px] font-semibold text-slate-100 truncate">Action Movie</h4>
+                                                <p class="text-[9px] text-slate-400">MKV • 1080p</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-2 bg-slate-800/40 p-1.5 rounded-xl border border-slate-800">
+                                            <div class="w-12 h-10 rounded-lg bg-slate-700 overflow-hidden relative flex-shrink-0">
+                                                <img src="https://images.unsplash.com/photo-1476514525535-ce74f45814d0?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                                <span class="absolute bottom-0.5 right-0.5 bg-black/80 text-[7px] text-white px-1 rounded">15:20</span>
+                                            </div>
+                                            <div class="overflow-hidden">
+                                                <h4 class="text-[11px] font-semibold text-slate-100 truncate">Travel Vlog</h4>
+                                                <p class="text-[9px] text-slate-400">MP4 • 1080p</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="flex items-center gap-2 bg-slate-800/40 p-1.5 rounded-xl border border-slate-800">
+                                            <div class="w-12 h-10 rounded-lg bg-slate-700 overflow-hidden relative flex-shrink-0">
+                                                <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=150&q=80" class="w-full h-full object-cover">
+                                                <span class="absolute bottom-0.5 right-0.5 bg-black/80 text-[7px] text-white px-1 rounded">4:12</span>
+                                            </div>
+                                            <div class="overflow-hidden">
+                                                <h4 class="text-[11px] font-semibold text-slate-100 truncate">Music Video</h4>
+                                                <p class="text-[9px] text-slate-400">MP4 • 1080p</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- KEY FEATURE HIGHLIGHTS BAR -->
+    <section class="border-y border-slate-800/80 bg-slate-950/60 py-10 relative z-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                
+                <!-- Feature 1 -->
+                <div class="p-4 rounded-xl glass-card">
+                    <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-lg">
+                        <i class="fa-solid fa-4"></i><span class="font-black text-xs">K</span>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200">4K / Ultra HD</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">Full HD & 4K Support</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="p-4 rounded-xl glass-card">
+                    <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-neon-blue/10 border border-neon-blue/30 flex items-center justify-center text-neon-blue text-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200">Fast & Smooth</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">HW Acceleration</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="p-4 rounded-xl glass-card">
+                    <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple text-lg">
+                        <i class="fa-solid fa-photo-film"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200">Multiple Formats</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">MP4, MKV, AVI, MOV</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="p-4 rounded-xl glass-card">
+                    <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-lg">
+                        <i class="fa-solid fa-folder-tree"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200">Folder & Playlist</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">Smart Organization</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="p-4 rounded-xl glass-card">
+                    <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink text-lg">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200">Gesture Control</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">Screen Lock & Swipe</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="p-4 rounded-xl glass-card">
+                    <div class="w-10 h-10 mx-auto mb-3 rounded-lg bg-neon-green/10 border border-neon-green/30 flex items-center justify-center text-neon-green text-lg">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-200">Built-in Equalizer</h3>
+                    <p class="text-[11px] text-slate-400 mt-1">Custom Audio Boost</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURE DEEP DIVE SECTION ("Play Every Format") -->
+    <section id="features" class="py-20 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Feature Column -->
+                <div class="lg:col-span-5">
+                    <div class="inline-block text-xs font-bold uppercase tracking-wider text-neon-cyan mb-2">
+                        All Video Formats Supported
+                    </div>
+                    <h2 class="text-3xl sm:text-5xl font-black font-display tracking-tight text-white mb-6">
+                        Play Every Format
+                    </h2>
+                    <p class="text-slate-400 text-base leading-relaxed mb-8">
+                        From MP4 to MKV, AVI to MOV — Zarvimo supports almost all video formats, so you never have to worry about compatibility again.
+                    </p>
+
+                    <!-- Format Badges List -->
+                    <div class="flex flex-wrap gap-2.5 mb-8">
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">MP4</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">MKV</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">AVI</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">MOV</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">FLV</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">WMV</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-xs font-bold text-slate-200">M4V</span>
+                        <span class="px-3.5 py-1.5 rounded-lg bg-neon-cyan/20 border border-neon-cyan/40 text-xs font-bold text-neon-cyan">+ More</span>
+                    </div>
+                </div>
+
+                <!-- Right Feature Column: Tablet Landscape Frame & Side Cards -->
+                <div class="lg:col-span-7 grid sm:grid-cols-12 gap-6 items-center">
+                    
+                    <!-- Main Landscape Frame Card -->
+                    <div class="sm:col-span-7 bg-slate-950 p-3 rounded-2xl ring-1 ring-slate-800 shadow-2xl relative">
+                        <div class="aspect-video bg-slate-900 rounded-xl overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover">
+                            
+                            <!-- 4K Badge overlay -->
+                            <div class="absolute top-3 right-3 bg-neon-blue/80 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider backdrop-blur-md">
+                                4K HDR
+                            </div>
+
+                            <!-- Floating Player Overlay Control bar -->
+                            <div class="absolute bottom-3 inset-x-3 bg-slate-950/80 backdrop-blur-md p-2 rounded-lg border border-slate-800 flex items-center justify-between text-white text-xs">
+                                <span class="text-[10px] font-mono text-slate-400">08:12</span>
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-backward-step cursor-pointer"></i>
+                                    <i class="fa-solid fa-pause text-neon-cyan cursor-pointer"></i>
+                                    <i class="fa-solid fa-forward-step cursor-pointer"></i>
+                                </div>
+                                <span class="text-[10px] font-mono text-slate-400">24:36</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini Feature Cards Stack -->
+                    <div class="sm:col-span-5 space-y-4">
+                        <div class="p-4 rounded-xl glass-card">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-8 h-8 rounded-lg bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan">
+                                    <i class="fa-solid fa-gauge-high text-xs"></i>
+                                </div>
+                                <h4 class="text-xs font-bold text-white">Hardware Acceleration</h4>
+                            </div>
+                            <p class="text-[11px] text-slate-400">Smoother playback with lower battery consumption.</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl glass-card">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-8 h-8 rounded-lg bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple">
+                                    <i class="fa-solid fa-moon text-xs"></i>
+                                </div>
+                                <h4 class="text-xs font-bold text-white">Dark Mode Interface</h4>
+                            </div>
+                            <p class="text-[11px] text-slate-400">Easy on your eyes during nighttime viewing sessions.</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl glass-card">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-8 h-8 rounded-lg bg-neon-pink/10 border border-neon-pink/30 flex items-center justify-center text-neon-pink">
+                                    <i class="fa-solid fa-crop text-xs"></i>
+                                </div>
+                                <h4 class="text-xs font-bold text-white">Custom Aspect Ratio</h4>
+                            </div>
+                            <p class="text-[11px] text-slate-400">Fit screen, crop, stretch or original aspect ratio.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SCREENSHOTS GALLERY / FEATURE GRID -->
+    <section id="screenshots" class="py-20 bg-dark-800/40 border-y border-slate-800/60 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <h2 class="text-3xl sm:text-4xl font-extrabold font-display text-white mb-4">
+                    Designed for Ultimate Control
+                </h2>
+                <p class="text-slate-400 text-sm sm:text-base">
+                    Explore the clean, modern interface crafted specifically for seamless video playback on Android devices.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Screenshot Card 1 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-neon-blue/10 border border-neon-blue/30 flex items-center justify-center text-neon-blue text-xl">
+                        <i class="fa-solid fa-hand-pointer"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Smart Gesture Controls</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Swipe left or right for fast forwarding, swipe up or down on the left side for brightness, and right side for volume control.
+                    </p>
+                </div>
+
+                <!-- Screenshot Card 2 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-neon-purple/10 border border-neon-purple/30 flex items-center justify-center text-neon-purple text-xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Kid-Safe Screen Lock</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Lock your screen while playing videos to prevent accidental touches and enjoy uninterrupted watching.
+                    </p>
+                </div>
+
+                <!-- Screenshot Card 3 -->
+                <div class="glass-card p-6 rounded-2xl space-y-4">
+                    <div class="w-12 h-12 rounded-xl bg-neon-cyan/10 border border-neon-cyan/30 flex items-center justify-center text-neon-cyan text-xl">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Advanced Equalizer</h3>
+                    <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+                        Customize your sound settings with dynamic audio presets, bass boost, and surround sound effects.
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- DOWNLOAD CTA SECTION -->
+    <section id="download" class="py-20 md:py-28 relative overflow-hidden">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="glass-panel p-8 sm:p-14 rounded-3xl border border-slate-700/80 text-center relative overflow-hidden bg-gradient-to-b from-dark-800 to-dark-900 shadow-2xl">
+                
+                <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-gradient-to-tr from-neon-cyan to-neon-blue flex items-center justify-center text-white text-2xl shadow-lg shadow-neon-cyan/30">
+                    <i class="fa-solid fa-cloud-arrow-down"></i>
+                </div>
+
+                <h2 class="text-3xl sm:text-5xl font-black font-display text-white mb-4">
+                    Ready to Upgrade Your Video Experience?
+                </h2>
+                
+                <p class="text-slate-300 text-base max-w-xl mx-auto mb-8">
+                    Download the latest APK release (Build 28) directly from GitHub and start watching videos with full 4K support today.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" 
+                       class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-neon-green to-emerald-600 hover:opacity-95 font-bold text-white shadow-xl shadow-neon-green/20 flex items-center justify-center gap-3 text-base transition-all transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Download VoxaZ-Studio.apk</span>
+                    </a>
+                </div>
+                
+                <p class="text-[11px] text-slate-500 mt-6">
+                    Requires Android 6.0 and above • 100% Free & Safe
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-12 border-t border-slate-800/80 bg-slate-950/40 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left grid sm:grid-cols-2 gap-6 items-center">
+            <div>
+                <h4 class="text-sm font-bold text-slate-200 mb-1">About Zarvimo Studio</h4>
+                <p class="leading-relaxed">
+                    Zarvimo Studio is dedicated to crafting lightweight, high-performance Android media applications focused on user privacy and effortless usability.
+                </p>
+            </div>
+            <div class="sm:text-right space-y-2">
+                <p class="text-slate-300 font-medium">Developer & Distribution</p>
+                <div class="flex items-center justify-center sm:justify-end gap-3 text-slate-400">
+                    <a href="https://github.com/leekhiplus/VoxaZ-Studio" target="_blank" class="hover:text-neon-cyan transition-colors">
+                        <i class="fa-brands fa-github text-base"></i> GitHub Project
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-dark-900 border-t border-slate-800 py-8 text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            
+            <!-- Copyright Text -->
+            <div>
+                &copy; 2026 Zarvimo Studio. All rights reserved.
+            </div>
+
+            <!-- AdMob Compliance Link -->
+            <div class="flex items-center gap-6">
+                <a href="app-ads.txt" target="_blank" class="text-slate-400 hover:text-neon-cyan transition-colors underline underline-offset-4">
+                    app-ads.txt
+                </a>
+            </div>
+
+        </div>
+    </footer>
+
+    <!-- JavaScript for Mobile Menu Interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            menuBtn.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking a link
+            const menuLinks = mobileMenu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+```
