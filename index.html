@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zarvimo Video Player</title>
+    <title>Zarvimo Video Player - Your Videos, Your Way</title>
     <style>
         * {
             box-sizing: border-box;
@@ -11,91 +11,293 @@
             padding: 0;
         }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0b0f19;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: #070b14;
             color: #ffffff;
-            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        /* Navbar */
+        nav {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: space-between;
-            padding: 20px;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(7, 11, 20, 0.8);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
-        .container {
-            max-width: 600px;
-            width: 100%;
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 16px;
-            padding: 40px 25px;
-            text-align: center;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            margin: auto;
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .logo {
-            font-size: 48px;
-            margin-bottom: 15px;
-        }
-        h1 {
-            font-size: 28px;
-            color: #f3f4f6;
-            margin-bottom: 10px;
-        }
-        p {
-            color: #9ca3af;
-            font-size: 15px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-        .download-btn {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            color: #ffffff;
-            padding: 16px 32px;
-            font-size: 16px;
-            font-weight: 600;
-            text-decoration: none;
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
             border-radius: 10px;
-            display: inline-block;
-            transition: opacity 0.2s ease;
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
-        .download-btn:hover {
-            opacity: 0.9;
+        .logo-text h2 {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
-        .info {
-            margin-top: 20px;
-            font-size: 13px;
-            color: #6b7280;
+        .logo-text span {
+            font-size: 11px;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
-        .footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #4b5563;
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
         }
-        .footer a {
-            color: #9ca3af;
+        .nav-links a {
+            color: #94a3b8;
             text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: #38bdf8;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 60px 50px;
+            max-width: 1300px;
+            margin: 0 auto;
+            min-height: 80vh;
+            gap: 40px;
+        }
+        .hero-content {
+            flex: 1;
+            max-width: 600px;
+        }
+        .hero-tag {
+            color: #38bdf8;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .hero-content h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            background: linear-gradient(90deg, #ffffff, #38bdf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-content h3 {
+            font-size: 24px;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+            font-weight: 400;
+        }
+        .hero-content p {
+            color: #94a3b8;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 35px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        .btn-download {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(59, 130, 246, 0.4);
+        }
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+        .phone-mockup {
+            width: 100%;
+            max-width: 450px;
+            background: #1e293b;
+            border-radius: 30px;
+            border: 8px solid #334155;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.7);
+        }
+        .phone-mockup img {
+            width: 100%;
+            display: block;
+        }
+
+        /* Features Bar */
+        .features-bar {
+            background: rgba(15, 23, 42, 0.6);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 30px 50px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .feature-item h4 {
+            color: #ffffff;
+            font-size: 15px;
+            margin-top: 8px;
+        }
+        .feature-item span {
+            color: #64748b;
+            font-size: 13px;
+        }
+        .feature-icon {
+            font-size: 24px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+            font-size: 14px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: 80px;
+        }
+        footer a {
+            color: #38bdf8;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+
+        /* Responsive */
+        @media(max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 30px 20px;
+            }
+            .cta-buttons {
+                justify-content: center;
+            }
+            .nav-links {
+                display: none;
+            }
+            nav {
+                padding: 20px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="logo">🎬</div>
-        <h1>Zarvimo Video Player</h1>
-        <p>A powerful, fast, and feature-rich video player for Android. Enjoy seamless playback in stunning quality.</p>
-        
-        <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" class="download-btn">Download APK</a>
-        
-        <div class="info">
-            Requires Android 6.0 and above &bull; 100% Free
+    <!-- Navbar -->
+    <nav>
+        <div class="logo-container">
+            <div class="logo-icon">▶</div>
+            <div class="logo-text">
+                <h2>Zarvimo</h2>
+                <span>Video Player</span>
+            </div>
         </div>
-    </div>
+        <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#download">Download</a></li>
+        </ul>
+        <div class="nav-right">
+            <span>Play More. Worry Less.</span>
+        </div>
+    </nav>
 
-    <div class="footer">
-        &copy; 2026 Zarvimo Studio &bull; <a href="app-ads.txt">app-ads.txt</a>
-    </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-tag">Android Video Player App</span>
+            <h1>Zarvimo Video Player</h1>
+            <h3>Your Videos, Your Way</h3>
+            <p>A powerful, fast and feature-rich video player for Android. Play all your favorite videos in stunning quality — anytime, anywhere.</p>
+            <div class="cta-buttons">
+                <a href="https://github.com/leekhiplus/VoxaZ-Studio/releases/download/build-28/VoxaZ-Studio.apk" class="btn-download">
+                    📥 Download APK
+                </a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <div class="phone-mockup" style="padding: 20px; text-align: center; background: #0f172a;">
+                <div style="font-size: 60px; margin-bottom: 20px;">🎬</div>
+                <h2 style="color: #38bdf8; margin-bottom: 10px;">Zarvimo Player</h2>
+                <p style="color: #94a3b8; font-size: 14px;">Support 4K, Ultra HD, MKV, MP4, AVI, Subtitles, Equalizer & much more.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Bar -->
+    <section class="features-bar" id="features">
+        <div class="feature-item">
+            <div class="feature-icon">💎</div>
+            <h4>4K / Ultra HD</h4>
+            <span>Support</span>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h4>Fast & Smooth</h4>
+            <span>Playback</span>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">📁</div>
+            <h4>Multiple Format</h4>
+            <span>Support</span>
+        </div>
+        <div class="feature-item">
+            <div class="feature-icon">🔒</div>
+            <h4>Gesture & Lock</h4>
+            <span>Control</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="download">
+        <p>&copy; 2026 Zarvimo Studio. All rights reserved. 
+           <a href="app-ads.txt">app-ads.txt</a>
+        </p>
+    </footer>
 
 </body>
 </html>
